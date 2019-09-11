@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="main">
+        <div id="centralblock">
+            <div class="flex-cont"></div>
+        </div>
+    </div>
+    <script>
+        //populate flex
+        let centralblock = document.querySelector('.flex-cont')
+        for(let a=0;a<10;a++){
+            let div = document.createElement("div");
+            div.classList.add('flex-item');
+            centralblock.append(div)
+        }
+    </script>
+    <script>
+        let callNasa = (url) => fetch(url)
+        //nasa calling...
+        //multi call    
+        let doSomeThing = () => {
+            let myRequestToNasa = callNasa('https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0', {})//.then(res=>res.json())
+            myRequestToNasa.then((data) => {
+                console.log(data);
+            })
+        }
+    </script>
+</body>
+
+</html>
