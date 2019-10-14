@@ -19,23 +19,35 @@
     <script>
         //populate flex
         let centralblock = document.querySelector('.flex-cont')
-        for(let a=0;a<10;a++){
+        for (let a = 0; a < 10; a++) {
             let div = document.createElement("div");
             div.classList.add('flex-item');
             centralblock.append(div)
         }
     </script>
     <script>
-        let callTheRover = (url) => fetch(url).then(res=>res.json())
+        let transformNumber = (x) => {
+            return x.toString().padStart(2, '0');
+        }
+        Date.prototype.getDateFormat = function() {
+            let t = this
+            let g = new Date()
+            return t;
+            //return t.getFullYear()+'-'+transformNumber(g.getMonth()+1)+'-'+transformNumber(g.getDate()+1);
+        }
+        let callTheRover = (url) => fetch(url).then(res => res.json())
         //nasa calling...
         //multi call    
         let doSomeThing = () => {
-            let myRequestToNasa = callNasa('https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0', {})//.then(res=>res.json())
+            let thisDate = new Date();
+            let myRequestToNasa = callNasa('https://api.nasa.gov/planetary/apod?date=', {})//.then(res=>res.json())
             myRequestToNasa.then((data) => {
                 console.log(data);
             })
         }
-        doSomeThing();
+        let today = new Date();
+        console.log(today.getDateFormat());
+        //
     </script>
 </body>
 
