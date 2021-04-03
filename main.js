@@ -3,7 +3,7 @@ const fs = require('fs');
 let serverOptions = {
 
 };
-let server = http.createServer((req, res) => {    
+let server = http.createServer((req, res) => {
     res.writeHead(200, { 'Access-Control-Allow-Origin': '*' });
     let pattino = req.url.split('/').slice(1);
     let myRes = pattino[pattino.length - 1].split('.');
@@ -13,16 +13,16 @@ let server = http.createServer((req, res) => {
         }
     }
     if (pattino[0] == 'api') {
-        let cmd = pattino[1]        
+        let cmd = pattino[1]
         if (cmd == 'givesome') {
             //read from database
             res.write('test');
-        } else if (cmd=='storeUser'){
+        } else if (cmd == 'storeUser') {
             //generate key
-        } else if (cmd =='login'){
+        } else if (cmd == 'login') {
 
-        } else if (cmd=='storesession'){
-            
+        } else if (cmd == 'storesession') {
+
         }
         res.end();
     } else {
@@ -33,13 +33,11 @@ let server = http.createServer((req, res) => {
         }
         pattino = pattino.join('/');
         try {
-            //fs.readFile(req.url.)        
-            // //parse the url
-            //let ptoFile = 'html/' + numOfPath[1] + ".html";
             fs.readFile(pattino, (err, data) => {
                 try {
-                    if (err)
-                        res.write(err)
+                    if (err) {
+                        //res.write(err)
+                    }
                     else
                         res.write(data);
                     res.end();
