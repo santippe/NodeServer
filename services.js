@@ -1,10 +1,10 @@
-const http = require('http');
-function httpCall(url, postData) {
+const http = require('https');
+function httpCall(url, method, postData) {
     var options = {
         //hostname: 'www.google.com',
         //port: 80,
         //path: '/upload',
-        method: 'POST',
+        method: method,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Content-Length': Buffer.byteLength(postData || '')
@@ -16,21 +16,20 @@ function httpCall(url, postData) {
             console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
             res.setEncoding('utf8');
             res.on('data', (chunk) => {
-                try {
-                    console.log(`BODY: ${chunk}`);
-                } catch { }
+                console.log(`BODY: ${chunk}`);
             });
             res.on('end', () => {
-                try {
-                    console.log('No more data in response.');
-                }
-                catch { }
+                console.log('No more data in response.');
             });
         });
-        req.on('error', (error) => { });
+        req.on('error', (error) => {
+            console.log(error);
+        });
         //req.write(postData);
         req.end();
-    } catch { }
+    } catch (error) {
+        //console.log(error)
+    }
 }
 
 exports.httpCall = httpCall
@@ -45,7 +44,7 @@ const rl = readline.createInterface({
 rl.on('line', (input) => {
     if (input != '') {
         try {
-            httpCall(input, null)
+            httpCall(input, 'GET', null)
         }
         catch (err) {
             //console.log(err);
