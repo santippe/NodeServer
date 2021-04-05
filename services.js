@@ -7,26 +7,33 @@ function httpCall(url, postData) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(postData ?? '')
+            'Content-Length': Buffer.byteLength(postData || '')
         }
     };
-
-    var req = http.request(url, options, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
-        console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
+    try {
+        var req = http.request(url, options, (res) => {
+            console.log(`STATUS: ${res.statusCode}`);
+            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => {
+                try {
+                    console.log(`BODY: ${chunk}`);
+                } catch { }
+            });
+            res.on('end', () => {
+                try {
+                    console.log('No more data in response.');
+                }
+                catch { }
+            });
         });
-        res.on('end', () => {
-            console.log('No more data in response.');
-        });
-    });
-    //req.write(postData);
-    req.end();
+        req.on('error', (error) => { });
+        //req.write(postData);
+        req.end();
+    } catch { }
 }
 
-exports.httpCall = (url, postData) => httpCall(url, postData);
+exports.httpCall = httpCall
 
 const readline = require('readline');
 
@@ -35,13 +42,13 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.on('line', (input) => {    
+rl.on('line', (input) => {
     if (input != '') {
         try {
             httpCall(input, null)
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
         }
     } else process.exit();
 });
